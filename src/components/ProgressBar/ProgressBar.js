@@ -6,31 +6,59 @@ import { COLORS } from '../../constants';
 import VisuallyHidden from '../VisuallyHidden';
 
 const ProgressBar = ({ value, size }) => {
-  const ProgressMeter = styled.div`
-    background-color: hsla(0, 0%, 50%, 0.15);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px 0 hsla(0, 0%, 50%, 0.35) inset;
-    display: flex;
-    height: 24px;
-    padding: 4px;
-    width: 370px;
-  `;
-  const ProgressMeterFill = styled.svg`
-    background-color: hsla(240, 80%, 60%, 1);
-    border-radius: ${(props) => props.value !== 100 ? '4px 0 0 4px' : '4px'};
-    width: ${(props) => props.value + '%'}
-  `;
+    const SIZES = {
+        small: {
+            '--progress-meter-border-radius': 4 + 'px',
+            '--progress-meter-height': 8 + 'px',
+        },
+        medium: {
+            '--progress-meter-border-radius': 4 + 'px',
+            '--progress-meter-height': 12 + 'px',
+        },
+        large: {
+            '--progress-meter-border-radius': 8 + 'px',
+            '--progress-meter-height': 24 + 'px',
+            '--progress-meter-padding': 4 + 'px',
+        }
+    }
 
-  return (
+    const styles = SIZES[size];
+    console.log(styles);
+    const ProgressMeter = styled.div`
+      background-color: ${COLORS.transparentGray15};
+      border-radius: var(--progress-meter-border-radius);
+      box-shadow: 0 2px 4px 0 ${COLORS.transparentGray35} inset;
+      display: flex;
+      height: var(--progress-meter-height);
+      padding: var(--progress-meter-padding);
+      overflow: hidden;
+      width: 370px;
+      `;
+    const Bar = styled.svg`
+      background-color: ${COLORS.primary};
+      width: ${(props) => props.value + '%'}
+    `;
+
+    const Trimmer = styled.div`
+      border-radius: 4px;
+      overflow: hidden;
+      width: 100%;
+    `;
+
+    return (
       <ProgressMeter
           role="progressbar"
           aria-valuenow={value}
           aria-valuemin="0"
           aria-valuemax="100"
+          style={styles}
       >
-        <ProgressMeterFill value={value}/>
+          <VisuallyHidden>{value}%</VisuallyHidden>
+          <Trimmer>
+              <Bar value={value}/>
+          </Trimmer>
       </ProgressMeter>
-  );
+    );
 };
 
 export default ProgressBar;
