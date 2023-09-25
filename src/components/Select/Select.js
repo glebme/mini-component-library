@@ -12,6 +12,7 @@ const Select = ({ label, value, onChange, children }) => {
     position: relative;
     width: max-content;
   `;
+
   const NativeSelect = styled.select`
     position: absolute;
     top: 0;
@@ -47,11 +48,12 @@ const Select = ({ label, value, onChange, children }) => {
   const IconWrapper = styled.div`
     bottom: 0;
     height: var(--size);
+    pointer-events: none;
     position: absolute;
     margin: auto;
-    top: 0;
     right: 10px;
-    width: var(--size)
+    top: 0;
+    width: var(--size);
   `;
 
   return (
